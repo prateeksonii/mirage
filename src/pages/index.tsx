@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
+import { colors } from "../lib/constants";
 
 const IndexPage = () => {
   const router = useRouter();
@@ -78,6 +79,7 @@ const Left = styled.div`
   h1 {
     font-size: 4rem;
     font-weight: 900;
+    color: ${colors.primary};
   }
 
   p {
@@ -87,7 +89,7 @@ const Left = styled.div`
 
   a {
     margin-top: 2rem;
-    background: #563eb2;
+    background: ${colors.primary};
     color: white;
     width: max-content;
     padding: 1rem 2rem;
