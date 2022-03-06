@@ -1,4 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0";
+import { User } from "@prisma/client";
+import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,6 +15,14 @@ const IndexPage = () => {
   }
 
   if (user) {
+    // TODO: Refactor to ensure user is saved
+    axios
+      .post<User>("/api/users", {
+        email: user.email,
+        name: user.name,
+        picture: user.picture,
+      })
+      .catch((err) => console.log(err));
     router.replace("/app");
   }
 
