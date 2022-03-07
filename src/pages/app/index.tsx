@@ -4,6 +4,7 @@ import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Content from "../../components/Content";
 import styled from "styled-components";
+import LeftBar from "../../components/LeftBar";
 
 const AppIndex = () => {
   const { user } = useUser();
@@ -17,7 +18,7 @@ const AppIndex = () => {
       </Head>
       <Navbar />
       <StyledGrid>
-        <div></div>
+        <LeftBar />
         <Content />
         <div></div>
       </StyledGrid>
@@ -29,5 +30,5 @@ export default withPageAuthRequired(AppIndex);
 
 const StyledGrid = styled.div`
   display: grid;
-  grid-template-columns: auto 60% auto;
+  grid-template-columns: 1fr 60% 1fr;
 `;

@@ -1,14 +1,20 @@
+import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import styled from "styled-components";
 import { colors } from "../lib/constants";
 
 const Navbar = () => {
+  const { user } = useUser();
+
   return (
     <StyledHeader>
       <nav>
-        <Link passHref href="/api/auth/logout">
-          <a className="logout">Logout</a>
-        </Link>
+        <StyledRight>
+          <StyledUser>{user?.name}</StyledUser>
+          <Link passHref href="/api/auth/logout">
+            <a className="logout">Logout</a>
+          </Link>
+        </StyledRight>
       </nav>
     </StyledHeader>
   );
@@ -16,7 +22,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-export const StyledHeader = styled.header`
+const StyledHeader = styled.header`
   height: 64px;
   background-color: ${colors.primary};
   color: white;
@@ -29,7 +35,7 @@ export const StyledHeader = styled.header`
     margin: auto;
 
     .logout {
-      margin-left: auto;
+      /* margin-left: auto; */
       font-weight: bold;
       border-radius: 5px;
       background-color: white;
@@ -37,4 +43,15 @@ export const StyledHeader = styled.header`
       padding: 0.5rem 1rem;
     }
   }
+`;
+
+const StyledUser = styled.div`
+  /* margin-left: auto; */
+`;
+
+const StyledRight = styled.div`
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
 `;
