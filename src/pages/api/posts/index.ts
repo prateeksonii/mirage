@@ -12,7 +12,7 @@ type Data = {
   ok: boolean;
   post?: Post;
   message?: string;
-  posts?: Post[];
+  posts?: { post: Post; isLiked: boolean }[];
 };
 
 interface ExtNextApiRequest extends NextApiRequest {
@@ -58,12 +58,36 @@ export default withApiAuthRequired(async function handler(
     const posts = await prisma.post.findMany({
       include: {
         user: true,
+        likedBy: true,
       },
+    });
+
+    const { user } = getSession(req, res) as { user: UserProfile };
+
+    const userInDb = await prisma.user.findUnique({
+      where: {
+        email: user.email!,
+      },
+    });
+
+    if (!userInDb) {
+      return res.status(404).json({
+        ok: false,
+        message: "User not found",
+      });
+    }
+
+    const postsWithIsLiked = posts.map((post) => {
+      const isLiked = !!post.likedBy.find((user) => user.id === userInDb.id);
+      return {
+        post,
+        isLiked,
+      };
     });
 
     return res.json({
       ok: true,
-      posts,
+      posts: postsWithIsLiked,
     });
   }
 });
