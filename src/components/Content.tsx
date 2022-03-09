@@ -25,7 +25,9 @@ const Content: React.FC = () => {
           {!res ? (
             <div>Loading...</div>
           ) : (
-            res.data.posts.map((post) => <Post post={post} />)
+            res.data.posts.map((post) => (
+              <Post key={post.post.id} post={post} />
+            ))
           )}
         </StyledList>
       </StyledListContainer>

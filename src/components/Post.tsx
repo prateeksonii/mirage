@@ -27,7 +27,7 @@ const PostModel: FC<PostProps> = ({ post }) => {
   };
 
   return (
-    <StyledCard key={post.post.id}>
+    <StyledCard>
       <div className="name">{post.post.user.name}</div>
       <div className="message">{post.post.message}</div>
       <br />
