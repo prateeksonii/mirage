@@ -51,7 +51,7 @@ const StyledCard = styled.div`
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   .name {
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid #dddddd;
   }
 
   .message {
