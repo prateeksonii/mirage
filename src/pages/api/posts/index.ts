@@ -60,6 +60,9 @@ export default withApiAuthRequired(async function handler(
         user: true,
         likedBy: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     const { user } = getSession(req, res) as { user: UserProfile };

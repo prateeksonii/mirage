@@ -1,10 +1,14 @@
 import axios from "axios";
 import { ChangeEventHandler, FC, FormEventHandler, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
+import { User, Post as PostModel } from "@prisma/client";
 import styled from "styled-components";
 import { colors } from "../lib/constants";
 
 const PostForm: FC = () => {
+  const queryClient = useQueryClient();
+
   const [message, setMessage] = useState<string>("");
 
   const handleChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
@@ -21,6 +25,7 @@ const PostForm: FC = () => {
       });
 
       toast.success("Your message is shared!");
+      queryClient.fetchQuery("posts");
     } catch (err: any) {
       toast.error(err.message);
     }

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import useSWR from "swr";
 import PostForm from "./PostForm";
 import Post from "./Post";
+import { useQuery } from "react-query";
 
 type ResData = {
   ok: boolean;
@@ -13,7 +14,21 @@ type ResData = {
 const fetcher = (url: string) => axios.get<ResData>(url);
 
 const Content: React.FC = () => {
-  const { data: res } = useSWR("/api/posts", fetcher);
+  const {
+    data: posts,
+    isLoading,
+    isError,
+  } = useQuery<{ post: PostModel & { user: User }; isLiked: boolean }[]>(
+    "posts",
+    async () => {
+      const res = await axios.get("/api/posts");
+      return res.data.posts;
+    }
+  );
+
+  if (isError) {
+    return <div>Something went wrong</div>;
+  }
 
   return (
     <div>
@@ -22,12 +37,10 @@ const Content: React.FC = () => {
       <StyledListContainer>
         <h2>All messages</h2>
         <StyledList>
-          {!res ? (
+          {isLoading ? (
             <div>Loading...</div>
           ) : (
-            res.data.posts.map((post) => (
-              <Post key={post.post.id} post={post} />
-            ))
+            posts!.map((post) => <Post key={post.post.id} post={post} />)
           )}
         </StyledList>
       </StyledListContainer>
