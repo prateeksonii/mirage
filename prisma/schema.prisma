@@ -19,6 +19,8 @@ model User {
   updatedAt  DateTime @updatedAt
   posts      Post[]   @relation("post")
   likedPosts Post[]
+  followers  User[]   @relation("UserFollows", references: [id])
+  following  User[]   @relation("UserFollows", references: [id])
 }
 
 model Post {
